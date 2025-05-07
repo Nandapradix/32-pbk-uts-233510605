@@ -47,3 +47,51 @@
     </p>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      newTodo: '',
+      todos: [],
+      showIncompleteOnly: false,
+      isDarkMode: false,
+    };
+  },
+  computed: {
+    filteredTodos() {
+      return this.showIncompleteOnly
+        ? this.todos.filter((todo) => !todo.done)
+        : this.todos;
+    },
+  },
+  methods: {
+    addTodo() {
+      if (this.newTodo.trim() !== '') {
+        this.todos.push({ text: this.newTodo.trim(), done: false, editing: false });
+        this.newTodo = '';
+      }
+    },
+    hapusTodo(index) {
+      this.todos.splice(index, 1);
+    },
+    markAllDone() {
+      this.todos.forEach((todo) => {
+        todo.done = true;
+      });
+    },
+    clearCompleted() {
+      this.todos = this.todos.filter((todo) => !todo.done);
+    },
+    editTodo(todo) {
+      todo.editing = true;
+    },
+    finishEdit(todo) {
+      todo.editing = false;
+    },
+    toggleTheme() {
+      this.isDarkMode = !this.isDarkMode;
+    },
+  },
+};
+</script>
